@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CyberShield</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div class="icon">🛡️</div>
+    <div>
+      <h1>CyberShield</h1>
+      <span>Smart Detection for Spam and Malware</span>
+    </div>
+  </div>
+
+  <div class="badges">
+    <span>⚡ AI-Powered</span>
+    <span>🔒 Secure</span>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Protect Your Digital Space</h2>
+  <p>
+    Advanced machine learning technology to detect spam messages and malicious files<br>
+    in real-time
+  </p>
+</section>
+
+<main class="content">
+  <div class="panel">
+
+    <div class="tabs">
+      <button class="tab active" data-tab="text">📄 Text Detection</button>
+      <button class="tab" data-tab="file">⬆ File Scan</button>
+    </div>
+
+    <!-- TEXT SCAN -->
+    <div class="tab-content active" id="text">
+      <label>Paste text or email content</label>
+      <textarea placeholder="Enter or paste your text, email, or message here for spam analysis..."></textarea>
+
+      <small>• Our ML algorithm analyzes language patterns, urgency indicators, and suspicious elements</small>
+    </div>
+
+    <!-- FILE SCAN -->
+    <div class="tab-content" id="file">
+      <label>Upload file for analysis</label>
+
+      <div class="upload-box">
+        <div class="upload-icon">⬆</div>
+        <p class="upload-text">Click to upload file</p>
+        <p class="upload-subtext">Supported: .txt, .html, .eml</p>
+      </div>
+
+      <small>• Files are analyzed by our Python ML backend for malicious patterns and anomalies</small>
+    </div>
+
+    <button class="primary-btn">
+      <span class="btn-text">Scan Now</span>
+      <span class="btn-loader"></span>
+    </button>
+
+  </div>
+</main>
+
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      contents.forEach(c => c.classList.remove("active"));
+
+      tab.classList.add("active");
+      document.getElementById(tab.dataset.tab).classList.add("active");
+    });
+  });
+
+  const btn = document.querySelector(".primary-btn");
+  btn.addEventListener("click", () => {
+    btn.classList.add("loading");
+    setTimeout(() => btn.classList.remove("loading"), 2000);
+  });
+</script>
+
+</body>
+</html>
