@@ -36,7 +36,7 @@ Project Structure
 │
 ├─ /data                 # Raw & processed datasets (CSV/JSON)
 ├─ /saved_models         # Saved ML models (.pkl)
-├─ Untitled7.ipynb       # Main notebook
+├─ Assignment2.ipynb       # Main notebook
 ├─ preprocess.py         # Optional preprocessing script
 ├─ train_models.py       # Optional training script
 ├─ evaluate_models.py    # Optional evaluation script
