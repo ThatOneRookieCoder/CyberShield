@@ -1,1 +1,142 @@
-# CyberShield
+# CyberShield – AI-Based Spam & Phishing Detection
+
+## Project Overview
+**CyberShield** is a machine learning project designed to detect:  
+
+1. **Spam emails/messages** – analyzing email subject and message content.  
+2. **Phishing URLs** – analyzing URL structure and suspicious patterns to detect malicious websites.  
+
+The project combines **supervised learning** (Logistic Regression, Random Forest, SVM, Naive Bayes, Decision Tree, Gradient Boosting) with **unsupervised learning** (K-Means clustering) for pattern detection.  
+
+**Intended Users:** General email users, organizations, and cybersecurity practitioners.  
+
+---
+
+## Environment Setup
+
+### Prerequisites
+- Python 3.10+  
+- Terminal or command prompt  
+- Recommended: virtual environment (venv)  
+
+### Create & Activate Virtual Environment
+```bash
+cd path/to/CyberShield
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
+Install Dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn joblib
+Project Structure
+/CyberShield
+│
+├─ /data                 # Raw & processed datasets (CSV/JSON)
+├─ /saved_models         # Trained models saved as .pkl
+├─ Untitled7.ipynb       # Main notebook
+├─ preprocess.py         # Optional preprocessing script
+├─ train_models.py       # Optional training script
+├─ evaluate_models.py    # Optional evaluation script
+├─ predict_spam.py       # Spam prediction script
+├─ predict_phish.py      # Phishing prediction script
+└─ README.md             # This file
+Datasets
+Spam Dataset
+
+File: enron_spam_data.csv
+
+Columns: Subject, Message, Spam/Ham
+
+Labels: spam = 1, ham = 0
+
+Preprocessing: clean text, lowercase, concatenate subject + message
+
+Phishing Dataset
+
+File: malicious_phish.csv
+
+Columns: url, type (benign/malicious)
+
+Labels: malicious = 1, benign = 0
+
+Feature Engineering: URL length, dots, hyphens, digits, HTTPS, suspicious words, IP detection, domain analysis
+
+Running the Project
+1. Preprocessing & Feature Extraction
+python preprocess.py
+
+Cleans email text for spam detection
+
+Generates TF-IDF features
+
+Extracts URL-based features for phishing detection
+
+2. Train Models
+python train_models.py
+
+Trains spam detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting
+
+Trains phishing detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting, Random Forest
+
+Saves trained models to /saved_models/
+
+3. Evaluate Models
+python evaluate_models.py
+
+Evaluates models: Accuracy, Precision, Recall, F1 Score
+
+Generates confusion matrices
+
+Produces ROC curves for spam and phishing models
+
+Real-World Predictions
+Spam Prediction
+from predict_spam import predict_email_spam
+
+predict_email_spam("URGENT: Your bank account has been suspended. Click here to verify your account immediately.")
+predict_email_spam("Hi team, please review the attached report.")
+
+Output: "Spam" or "Ham"
+
+Phishing URL Prediction
+from predict_phish import predict_phishing_url
+
+predict_phishing_url("http://secure-login-paypal-update-account.ru")
+predict_phishing_url("https://www.google.com")
+
+Output: "Phishing" or "Legitimate"
+
+Key Features
+
+Spam Detection – TF-IDF vectorization, supervised learning, pattern analysis
+
+Phishing Detection – URL feature extraction, classification models
+
+Pattern Analysis – K-Means clustering for spam emails
+
+Model Evaluation – Confusion matrix, ROC curve, Accuracy, Precision, Recall, F1
+
+Saved Models – Reusable .pkl files for prediction
+
+How to Use
+
+Place datasets in /data folder
+
+Run preprocessing to clean and extract features
+
+Train models to generate .pkl files
+
+Evaluate models using test data and visualize performance
+
+Make predictions using predict_email_spam() or predict_phishing_url()
+
+References
+
+Apache SpamAssassin Public Corpus – https://spamassassin.apache.org/old/publiccorpus/
+
+scikit-learn Documentation – https://scikit-learn.org/
+
+pandas Documentation – https://pandas.pydata.org/
+
+matplotlib Documentation – https://matplotlib.org/
