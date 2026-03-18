@@ -1,142 +1,150 @@
-AI-Based Email Spam & Phishing Detection
-📖 Overview
+# CyberShield – AI-Based Spam & Phishing Detection
 
-This project implements AI-based detection for email spam and malicious phishing URLs.
-It combines machine learning, feature engineering, and unsupervised clustering to detect suspicious content and evaluate models.
+## Project Overview
+**CyberShield** is a Python-based machine learning project for detecting:
 
-Built with Python, scikit-learn, pandas, matplotlib, and seaborn.
+1. **Spam emails/messages** – using email subject + message content.  
+2. **Phishing URLs** – analyzing URL structure and suspicious patterns.
 
-⚡ Features
-Email Spam Detection
+It combines **supervised learning** (Logistic Regression, Random Forest, SVM, Naive Bayes, Decision Tree, Gradient Boosting) with **unsupervised learning** (K-Means clustering) for pattern analysis.  
 
-Clean and preprocess email subjects and messages.
+**Intended Users:** Email users, organizations, and cybersecurity professionals.
 
-TF-IDF vectorization for feature extraction.
+---
 
-Models used:
+## Environment Setup
 
-Logistic Regression
+### Prerequisites
+- Python 3.10+  
+- Terminal or command prompt  
+- Recommended: virtual environment (venv)  
 
-SVM
+### Create & Activate Virtual Environment
+```bash
+cd path/to/CyberShield
+python -m venv venv
 
-Naive Bayes
+# Windows
+venv\Scripts\activate
 
-Decision Tree
+# Mac/Linux
+source venv/bin/activate
+Install Dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn joblib
+Project Structure
+/CyberShield
+│
+├─ /data                 # Raw & processed datasets (CSV/JSON)
+├─ /saved_models         # Saved ML models (.pkl)
+├─ Untitled7.ipynb       # Main notebook
+├─ preprocess.py         # Optional preprocessing script
+├─ train_models.py       # Optional training script
+├─ evaluate_models.py    # Optional evaluation script
+├─ predict_spam.py       # Spam prediction script
+├─ predict_phish.py      # Phishing prediction script
+└─ README.md             # This file
+Datasets
+Spam Dataset
 
-Gradient Boosting
+File: enron_spam_data.csv
 
-Random Forest
+Columns: Subject, Message, Spam/Ham
 
-K-Means clustering for pattern analysis.
+Labels: spam = 1, ham = 0
 
-Model evaluation:
+Preprocessing: Clean text, lowercase, concatenate subject + message
 
-Accuracy, Precision, Recall, F1-score
+Phishing Dataset
 
-Confusion matrix
+File: malicious_phish.csv
 
-ROC curve
+Columns: url, type (benign/malicious)
 
-Save and load models for real-time prediction.
+Labels: malicious = 1, benign = 0
 
-Phishing URL Detection
+Feature Engineering: URL length, dots, hyphens, digits, HTTPS, suspicious words, IP detection, domain analysis
 
-URL feature extraction (length, dots, hyphens, digits, https, IP presence, suspicious keywords).
+Running the Project
+1. Preprocessing & Feature Extraction
+python preprocess.py
 
-Models used:
+Cleans email text
 
-Logistic Regression
+Generates TF-IDF features for spam
 
-SVM
+Extracts URL-based features for phishing
 
-Naive Bayes
+2. Train Models
+python train_models.py
 
-Decision Tree
+Trains spam detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting
 
-Gradient Boosting
+Trains phishing detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting, Random Forest
 
-Random Forest
+Saves trained models to /saved_models/
 
-Model evaluation with ROC curves.
+3. Evaluate Models
+python evaluate_models.py
 
-Heuristic checks for:
+Computes Accuracy, Precision, Recall, F1
 
-Suspicious TLDs
+Generates confusion matrices and ROC curves
 
-Trusted domains
+Unsupervised Pattern Analysis
 
-Save and load the best model for real-world URL predictions.
+Uses Truncated SVD + K-Means to cluster spam/ham emails.
 
-🛠 Requirements
+Compare clusters with actual labels to analyze patterns.
 
-Python 3.8+
+Visualized with 2D scatter plots.
 
-Python libraries:
+Real-World Predictions
+Spam Email
+from predict_spam import predict_email_spam
 
-pip install pandas numpy matplotlib seaborn scikit-learn joblib
+predict_email_spam("URGENT: Your bank account has been suspended. Click here to verify your account immediately.")
+predict_email_spam("Hi John, can we schedule the meeting for tomorrow morning?")
 
-Datasets:
+Output: "Spam" or "Ham"
 
-enron_spam_data.csv – Email spam dataset
+Phishing URL
+from predict_phish import predict_phishing_url
 
-malicious_phish.csv – Phishing URL dataset
-
-🚀 Usage
-Spam Detection
-from joblib import load
-
-model = load("saved_models/spam_logistic.pkl")
-vectorizer = load("saved_models/tfidf_vectorizer.pkl")
-
-def predict_email_spam(text):
-    text = clean_text(text)
-    X_input = vectorizer.transform([text])
-    prediction = model.predict(X_input)[0]
-    return "Spam" if prediction==1 else "Ham"
-
-# Example
-predict_email_spam("URGENT: Your bank account has been suspended.")
-predict_email_spam("Hi John, can we schedule the meeting?")
-Phishing URL Detection
-from joblib import load
-from urllib.parse import urlparse
-
-model = load("saved_models/phish_best_model.pkl")
-
-def predict_phishing_url(url):
-    # Apply heuristic and ML model prediction
-    ...
-    return "Phishing" or "Legitimate"
-
-# Example
 predict_phishing_url("http://secure-login-paypal-update-account.ru")
 predict_phishing_url("https://www.google.com")
-📂 Project Structure
-.
-├── enron_spam_data.csv
-├── malicious_phish.csv
-├── saved_models/
-│   ├── spam_logistic.pkl
-│   ├── tfidf_vectorizer.pkl
-│   └── phish_best_model.pkl
-├── spam_phishing_detection.ipynb
-└── README.md
-📊 Model Evaluation
 
-Metrics: Accuracy, Precision, Recall, F1-score
+Output: "Phishing" or "Legitimate"
 
-Visualizations:
+Key Features
 
-Confusion Matrix
+Spam Detection: TF-IDF vectorization, supervised ML models
 
-ROC Curve Comparison
+Phishing Detection: URL feature extraction, classification models
 
-K-Means clustering for spam patterns.
+Pattern Analysis: K-Means clustering on email dataset
 
-🔗 References
+Evaluation: Confusion matrix, ROC curves, Accuracy, Precision, Recall, F1
 
-Enron Email Dataset
+Saved Models: .pkl files for prediction
 
-scikit-learn documentation
+How to Use
 
-Python official documentation
+Place datasets in /data
+
+Run preprocessing to clean and extract features
+
+Train models to generate .pkl files
+
+Evaluate models and visualize performance
+
+Make predictions using predict_email_spam() or predict_phishing_url()
+
+References
+
+Apache SpamAssassin Public Corpus – https://spamassassin.apache.org/old/publiccorpus/
+
+scikit-learn Documentation – https://scikit-learn.org/
+
+pandas Documentation – https://pandas.pydata.org/
+
+matplotlib Documentation – https://matplotlib.org/
