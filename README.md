@@ -1,150 +1,175 @@
-# CyberShield – AI-Based Spam & Phishing Detection
+# CyberShield – Full-Stack AI Spam & Phishing Detection Web App
 
 ## Project Overview
-**CyberShield** is a Python-based machine learning project for detecting:
+**CyberShield** is a full-stack web application designed to detect:
 
-1. **Spam emails/messages** – using email subject + message content.  
-2. **Phishing URLs** – analyzing URL structure and suspicious patterns.
+1. **Spam emails/messages** – analyzes email subject and message content using machine learning.  
+2. **Phishing URLs** – analyzes URL structures and suspicious patterns using ML and rule-based heuristics.
 
-It combines **supervised learning** (Logistic Regression, Random Forest, SVM, Naive Bayes, Decision Tree, Gradient Boosting) with **unsupervised learning** (K-Means clustering) for pattern analysis.  
+The project uses a **FastAPI backend** to serve models and handle predictions, and a **React frontend** for a user-friendly dashboard, real-time scanning, and analytics.
 
-**Intended Users:** Email users, organizations, and cybersecurity professionals.
+**Target Users:** General email users, organizations, and cybersecurity practitioners.
 
 ---
 
-## Environment Setup
+## Project Structure
 
-### Prerequisites
-- Python 3.10+  
-- Terminal or command prompt  
-- Recommended: virtual environment (venv)  
+### Backend
+```text
+/backend
+│
+├─ /saved_models
+│  ├─ spam_logistic.pkl       # Spam detection model (Logistic Regression)
+│  ├─ tfidf_vectorizer.pkl    # TF-IDF vectorizer for email text
+│  └─ phish_best_model.pkl    # Phishing detection model (Random Forest)
+├─ main.py                    # FastAPI backend API
+└─ tempCodeRunnerFile.py      # Temporary file, optional
+Frontend
+/frontend
+│
+├─ /node_modules               # Node.js dependencies
+├─ /public                     # Public assets
+└─ /src
+   ├─ /components              # Reusable React components
+   │  ├─ Charts.js             # Confidence bars, pie charts, history graphs
+   │  └─ Sidebar.js            # Sidebar navigation
+   └─ /pages
+      ├─ Analytics.js          # Analytics dashboard
+      ├─ Dashboard.js          # Main dashboard
+      └─ History.js            # Scan history page
+   ├─ App.js                   # Main app file
+   ├─ App.css                  # Styles
+   ├─ index.js                 # Entry point
+   ├─ index.css                # Global CSS
+   ├─ logo.svg                 # App logo
+   ├─ reportWebVitals.js       # React performance metrics
+   └─ setupTests.js            # React testing setup
+Environment Setup
+Backend
 
-### Create & Activate Virtual Environment
-```bash
-cd path/to/CyberShield
+Navigate to the backend folder:
+
+cd backend
+
+Create and activate a virtual environment:
+
+# Create
 python -m venv venv
 
+# Activate
 # Windows
 venv\Scripts\activate
-
 # Mac/Linux
 source venv/bin/activate
-Install Dependencies
-pip install pandas numpy scikit-learn matplotlib seaborn joblib
-Project Structure
-/CyberShield
-│
-├─ /data                 # Raw & processed datasets (CSV/JSON)
-├─ /saved_models         # Saved ML models (.pkl)
-├─ Assignment2.ipynb       # Main notebook
-├─ preprocess.py         # Optional preprocessing script
-├─ train_models.py       # Optional training script
-├─ evaluate_models.py    # Optional evaluation script
-├─ predict_spam.py       # Spam prediction script
-├─ predict_phish.py      # Phishing prediction script
-└─ README.md             # This file
-Datasets
-Spam Dataset
 
-File: enron_spam_data.csv
+Install dependencies:
 
-Columns: Subject, Message, Spam/Ham
+pip install fastapi uvicorn pandas numpy scikit-learn joblib
 
-Labels: spam = 1, ham = 0
+Run the FastAPI server:
 
-Preprocessing: Clean text, lowercase, concatenate subject + message
+uvicorn main:app --reload
 
-Phishing Dataset
+The backend will be available at http://127.0.0.1:8000.
 
-File: malicious_phish.csv
+Frontend
 
-Columns: url, type (benign/malicious)
+Navigate to the frontend folder:
 
-Labels: malicious = 1, benign = 0
+cd frontend
 
-Feature Engineering: URL length, dots, hyphens, digits, HTTPS, suspicious words, IP detection, domain analysis
+Install dependencies:
 
-Running the Project
-1. Preprocessing & Feature Extraction
-python preprocess.py
+npm install
 
-Cleans email text
+Start the React app:
 
-Generates TF-IDF features for spam
+npm start
 
-Extracts URL-based features for phishing
+The frontend will run at http://localhost:3000.
 
-2. Train Models
-python train_models.py
+Features
+Email Spam Detection
 
-Trains spam detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting
+Uses Logistic Regression + TF-IDF vectorization.
 
-Trains phishing detection models: Logistic Regression, SVM, Naive Bayes, Decision Tree, Gradient Boosting, Random Forest
+Accepts raw email text and predicts "Spam" or "Legitimate".
 
-Saves trained models to /saved_models/
+Confidence score included.
 
-3. Evaluate Models
-python evaluate_models.py
+URL Phishing Detection
 
-Computes Accuracy, Precision, Recall, F1
+Uses Random Forest ML model + rule-based scoring for suspicious patterns.
 
-Generates confusion matrices and ROC curves
+Predicts "Phishing" or "Legitimate".
 
-Unsupervised Pattern Analysis
+Confidence score combines model + rule-based adjustments.
 
-Uses Truncated SVD + K-Means to cluster spam/ham emails.
+Frontend Dashboard
 
-Compare clusters with actual labels to analyze patterns.
+Real-time input for emails or URLs.
 
-Visualized with 2D scatter plots.
+Confidence bar and safety pie chart visualizations.
 
-Real-World Predictions
-Spam Email
-from predict_spam import predict_email_spam
+Displays recent scan history with timestamps.
 
-predict_email_spam("URGENT: Your bank account has been suspended. Click here to verify your account immediately.")
-predict_email_spam("Hi John, can we schedule the meeting for tomorrow morning?")
+Export scan history as CSV.
 
-Output: "Spam" or "Ham"
+Backend API
 
-Phishing URL
-from predict_phish import predict_phishing_url
+POST /predict-email – Predict email spam.
 
-predict_phishing_url("http://secure-login-paypal-update-account.ru")
-predict_phishing_url("https://www.google.com")
+POST /predict-url – Predict URL phishing.
 
-Output: "Phishing" or "Legitimate"
+GET / – Health check (API running message).
 
-Key Features
+GET /health – Simple API health status.
 
-Spam Detection: TF-IDF vectorization, supervised ML models
+GET /stats – Lists features and models loaded.
 
-Phishing Detection: URL feature extraction, classification models
-
-Pattern Analysis: K-Means clustering on email dataset
-
-Evaluation: Confusion matrix, ROC curves, Accuracy, Precision, Recall, F1
-
-Saved Models: .pkl files for prediction
-
+Example Usage
+Predict Email
+const response = await fetch("http://127.0.0.1:8000/predict-email", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ text: "URGENT: Verify your account now!" })
+});
+const data = await response.json();
+console.log(data);
+// { prediction: "Spam", confidence: 0.87 }
+Predict URL
+const response = await fetch("http://127.0.0.1:8000/predict-url", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ url: "http://secure-login-paypal-update-account.ru" })
+});
+const data = await response.json();
+console.log(data);
+// { prediction: "Phishing", confidence: 0.92 }
 How to Use
 
-Place datasets in /data
+Start the backend server.
 
-Run preprocessing to clean and extract features
+Start the frontend React app.
 
-Train models to generate .pkl files
+Use the dashboard to enter email text or URLs for scanning.
 
-Evaluate models and visualize performance
+View prediction results, confidence, and history analytics.
 
-Make predictions using predict_email_spam() or predict_phishing_url()
+Optionally, export scan history to CSV.
+
+Saved Models
+
+spam_logistic.pkl – Logistic Regression spam detection model.
+
+tfidf_vectorizer.pkl – TF-IDF vectorizer for email text preprocessing.
+
+phish_best_model.pkl – Random Forest phishing detection model.
 
 References
 
-Apache SpamAssassin Public Corpus – https://spamassassin.apache.org/old/publiccorpus/
+scikit-learn Documentation
 
-scikit-learn Documentation – https://scikit-learn.org/
+FastAPI Documentation
 
-pandas Documentation – https://pandas.pydata.org/
-
-matplotlib Documentation – https://matplotlib.org/
+React Documentation
