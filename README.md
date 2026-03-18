@@ -44,6 +44,8 @@ Frontend
    ├─ logo.svg                 # App logo
    ├─ reportWebVitals.js       # React performance metrics
    └─ setupTests.js            # React testing setup
+  └─ /notebooks
+      ├─ Assignment2.ipynb         
 Environment Setup
 Backend
 
