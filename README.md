@@ -72,7 +72,7 @@ uvicorn main:app --reload
 
 The backend will be available at http://127.0.0.1:8000.
 
-###Frontend
+Frontend
 
 Navigate to the frontend folder:
 
